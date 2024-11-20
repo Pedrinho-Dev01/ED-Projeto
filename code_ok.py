@@ -62,7 +62,8 @@ for site in news_sites:
             continue
 
         # Clean the article text
-        cleaned_text = ' '.join([word for word in article.text.split() if word.lower() not in stop_words])
+        # remove all non-alpabetical characters
+        cleaned_text = ' '.join([word for word in article.text.split() if word.isalpha() and word.lower() not in stop_words])
 
         for word in cleaned_text.split():
             if word in top_words:
@@ -90,6 +91,6 @@ plt.show()
 
 plt.bar(range(10), list(top_trigrams.values())[:10], align='center')
 plt.xticks(range(10), list(top_trigrams.keys())[:10])
-plt.xticks(rotation=30)
+plt.xticks(rotation=15)
 plt.title('Top 10 trigrams')
 plt.show()
