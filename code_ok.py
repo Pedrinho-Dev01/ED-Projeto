@@ -16,6 +16,12 @@ pretty_print = "&prettyPrint=true"
 top_words = {}
 top_trigrams = {}
 
+forbidden_words = ['facebook', 'advertisement', 'said', 'told', 'asked', 'added', 'noted', 'explained', 
+                   'stated', 'commented', 'wrote', 'tweeted', 'posted', 'announced', 'claimed', 'reported', 
+                   'mentioned', 'argued', 'discussed', 'replied', 'suggested', 'warned', 'urged', 'emphasized', 
+                   'pointed', 'expressed', 'noted', 'noting', 'may', 'one', 'would', 'also']
+
+
 news_sites = ['&siteSearch=www.cbs.com', 
               '&siteSearch=www.nbc.com', 
               '&siteSearch=www.washingtonpost.com', 
@@ -66,10 +72,12 @@ for site in news_sites:
         cleaned_text = ' '.join([word for word in article.text.split() if word.isalpha() and word.lower() not in stop_words])
 
         for word in cleaned_text.split():
-            if word in top_words:
-                top_words[word] += 1
+            if word.lower() in forbidden_words:
+                continue
+            elif word.lower() in top_words:
+                top_words[word.lower()] += 1
             else:
-                top_words[word] = 1
+                top_words[word.lower()] = 1
         
         trigrams = [cleaned_text.split()[i:i+3] for i in range(len(cleaned_text.split())-2)]
         for trigram in trigrams:
