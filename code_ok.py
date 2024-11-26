@@ -11,7 +11,7 @@ stop_words = set(stopwords.words('english'))
 default = 'https://arquivo.pt/textsearch?q='
 election_time = '&from=20200203000000&to=20201103000000'
 non_election_time = '&from=20180203000000&to=20181103000000'
-pretty_print = "&prettyPrint=true&maxItems=500"
+pretty_print = "&prettyPrint=true&maxItems=500&dedupValue=100"
 
 top_words = {}
 top_trigrams = {}
