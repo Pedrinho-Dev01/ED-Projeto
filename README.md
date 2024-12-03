@@ -15,18 +15,18 @@ After the training, the model was fed with the news articles from the data train
 ### Top 10 words
 
 During election cycles
-![Top 10 words](images\words_during.png)
+![Top 10 words](images/words_during.png)
 
 Outside of election cycles
-![Top 10 words](images\words_outside.png)
+![Top 10 words](images/words_outside.png)
 
 ## Top 10 Trigrams
 
 During election cycles
-![Top 10 Trigrams](images\trigrams_during.png)
+![Top 10 Trigrams](images/trigrams_during.png)
 
 Outside of election cycles
-![Top 10 Trigrams](images\trigrams_outside.png)
+![Top 10 Trigrams](images/trigrams_outside.png)
 
 ## Comparisons
 During election cycle:\
