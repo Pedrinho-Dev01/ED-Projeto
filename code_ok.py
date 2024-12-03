@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import nltk
 from nltk.corpus import stopwords
 
+import pickle
+
 nltk.download('stopwords')
 stop_words = set(stopwords.words('english'))
 
@@ -16,11 +18,18 @@ pretty_print = "&prettyPrint=true&maxItems=500&dedupValue=100"
 top_words = {}
 top_trigrams = {}
 
+total_count = 0
+fake_count = 0
+min_distance = 3  # Minimum distance between trigrams
+
+
 forbidden_words = ['facebook', 'advertisement', 'said', 'told', 'asked', 'added', 'noted', 'explained', 
                    'stated', 'commented', 'wrote', 'tweeted', 'posted', 'announced', 'claimed', 'reported', 
                    'mentioned', 'argued', 'discussed', 'replied', 'suggested', 'warned', 'urged', 'emphasized', 
                    'pointed', 'expressed', 'noted', 'noting', 'may', 'one', 'would', 'also']
 
+forbidden_trigram_words = ['permission', 'cookies', 'privacy', 'policy', 'terms', 'conditions', 'contact', 'us',
+                           'news', 'newsroom', 'newsletters', 'subscribe', 'contains', 'content', 'continue']
 
 news_sites = ['&siteSearch=www.cbs.com', 
               '&siteSearch=www.nbc.com', 
@@ -78,14 +87,30 @@ for site in news_sites:
                 top_words[word.lower()] += 1
             else:
                 top_words[word.lower()] = 1
+                
+        words = cleaned_text.split()
+        trigrams = [' '.join(words[i:i+3]) for i in range(len(words)-2)]
         
-        trigrams = [cleaned_text.split()[i:i+3] for i in range(len(cleaned_text.split())-2)]
-        for trigram in trigrams:
-            trigram = ' '.join(trigram)
-            if trigram in top_trigrams:
-                top_trigrams[trigram] += 1
-            else:
-                top_trigrams[trigram] = 1
+        last_added_index = -min_distance  # Initialize to a value that ensures the first trigram is added
+        
+        for i, trigram in enumerate(trigrams):
+            if i - last_added_index >= min_distance:
+                if any(word.lower() in forbidden_trigram_words for word in trigram.split()):
+                    continue
+                if trigram in top_trigrams:
+                    top_trigrams[trigram] += 1
+                else:
+                    top_trigrams[trigram] = 1
+                last_added_index = i
+
+        # Load model
+        joblib_mode = pickle.load(open('model2.pkl', 'rb'))
+        joblib_vector = pickle.load(open('tfidfvect2.pkl', 'rb'))
+        val_pkl = joblib_vector.transform([cleaned_text])
+        prediction = joblib_mode.predict(val_pkl)
+        if prediction == 1:
+            fake_count += 1
+        total_count += 1
 
 # Plot top_words and top_trigrams
 top_words = dict(sorted(top_words.items(), key=lambda item: item[1], reverse=True))
@@ -102,3 +127,6 @@ plt.xticks(range(10), list(top_trigrams.keys())[:10])
 plt.xticks(rotation=15)
 plt.title('Top 10 trigrams')
 plt.show()
+
+print("Total news articles: ", total_count)
+print("Fake news articles: ", fake_count)
