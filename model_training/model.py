@@ -23,7 +23,7 @@ def main():
     true['label'] = 1
     fake['label'] = 0
 
-    frames = [true.loc[:5000][:], fake.loc[:5000][:]]
+    frames = [true.loc[:10000][:], fake.loc[:10000][:]]
     data = pd.concat(frames)
 
     # Remove missing values
@@ -44,7 +44,7 @@ def main():
         review = ' '.join(review)
         corpus.append(review)
 
-    tfidf_v = TfidfVectorizer(max_features=5000, ngram_range=(1,3))
+    tfidf_v = TfidfVectorizer(max_features=10000, ngram_range=(1,3))
     x = tfidf_v.fit_transform(corpus).toarray()
     y = data2['label']
 

@@ -8,7 +8,7 @@ Salomé Dias Nº118163
 The objective of this project is to mine a dataset of news articles from arquivo.pt, analyse it and classify it as either fake news or not.
 
 ## Model Information
-Model used was a **Passive-Aggressive Classifier**, which was taken from the article referenced in model.py, with an accuracy of 0.998.
+Model used was a **Passive-Aggressive Classifier**, which was taken from the article referenced in model.py, with an accuracy of 0.997.
 After the training, the model was fed with the news articles from the data training set which had not been used.
 
 ## Results 
@@ -30,12 +30,12 @@ Outside of election cycles
 
 ## Comparisons
 During election cycle:\
-Total news articles:  495\
-Fake news articles:  118
+Total news articles:  497\
+Fake news articles:  88
 
 Outside of election cycle:\
 Total news articles:  316\
-Fake news articles:  121
+Fake news articles:  105
 
 ## References 
 https://towardsdatascience.com/how-to-build-a-fake-news-detection-web-app-using-flask-c0cfd1d9c2d4
